@@ -5,6 +5,16 @@
  <script type="text/javascript">
     this.name = "mainWindow";
 </script>
+<script type="text/javascript">
+	$(document).ready(function () 
+			{
+		 Notification.requestPermission(function() {
+   
+	          }); 
+	          
+	          setTimeout(sendNotification,3000);
+			});
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Web Notifications API Demo</title>
@@ -107,72 +117,32 @@
 
     <script>
     
-     var perm ;
-    var title;
-    var message;
-    var url;
+    function sendNotification()
+	{
+	
+		var title = 'Mobile Handsets';
+        var options = {
+          body: 'Set of 2 Jaipuri Silk Razai with Gold Prints - AKSO',
+          tag: 'preset',
+          icon: 'http://techcircle.vccircle.com/wp-content/uploads/2012/04/naaptol-logo.jpg'
+        };
+        var notification = new Notification(title, options);
+        notification.addEventListener('click', function() {
+        	alert("hello");
+        	 var win = window.open("http://m.naaptol.com/m/sunglasses/scottish-club-set-of-3-day-night-vision-sunglasses/p/12496276.html?ntzoneid=9262&nts=HP_Best_Deals&ntz=HP_Best_Deals");
+        	 if(win)
+             {
+              window.focus();
+             }
+         else
+             {
+             window.location.href = "http://m.naaptol.com/m/sunglasses/scottish-club-set-of-3-day-night-vision-sunglasses/p/12496276.html?ntzoneid=9262&nts=HP_Best_Deals&ntz=HP_Best_Deals";
+             }
 
-    
-    
-      if (!('Notification' in window)) 
-      {
-		document.getElementById('wn-unsupported').classList.remove('hidden');
-		document.getElementById('button-wn-show-preset').setAttribute('disabled', 'disabled');
-		document.getElementById('button-wn-show-custom').setAttribute('disabled', 'disabled');
-	  }
-      else 
-      {
-        var log = document.getElementById('log');
-        var notificationEvents = ['onclick', 'onshow', 'onerror', 'onclose'];
-        /* Service worker code start  */
-        navigator.serviceWorker.register('sw.js');
-        
-        function notifyUser(event) 
-        {     	         
-        	
-            title = document.getElementById('title').value;
-            message = document.getElementById('body').value;
-            url  = document.getElementById('url').value;
-
-          setTimeout(function() { alert("hi"); },2000);
-           
-          
-          /* Service worker code end  */      
-        }
-             
-document.getElementById('button-wn-show-preset').addEventListener('click', notifyUser);
-
-      }
+               notification.close();
+        }.bind(this));
       
-
-      function showNotification() {
-    	 
-    	    if (perm === 'granted') {
-    	    	alert("start");
-    	      navigator.serviceWorker.ready.then(function(registration) {
-    	        registration.showNotification("Welcome to Naaptol", {
-    	          body: " Looks21 Hair Loss Concealer",
-    	          icon: "http://layout.naptol.com/usr/local/csp/staticContent/images_layout-html5/mobile/logo.png",
-    	          vibrate: [200, 100, 200, 100, 200, 100, 200],
-    	          tag: 'vibration-sample',
-    	          data: "http://m.naaptol.com/m/hair-care/looks21-hair-loss-concealer-new/p/12502906.html?ntzoneid=9262&nts=HP_Best_Deals&ntz=HP_Best_Deals"
-    	        });
-    	      });
-    	       alert("end");
-    	    }
-    	 
-    	}
-      
-      $(document).ready(function () 
-  			{
-    	  Notification.requestPermission(function(result) 
-    			  {
-             perm = result;
-             
-             });  
-    	  
-    	  setTimeout(showNotification,9000);
-    	  }); 
+	}
     </script>
   </body>
 </html>
